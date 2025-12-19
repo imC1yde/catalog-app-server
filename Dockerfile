@@ -10,6 +10,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE ${PUBLIC_NEST_PORT}
+EXPOSE ${PORT}
 
 CMD ["npm", "run", "start:prod"]

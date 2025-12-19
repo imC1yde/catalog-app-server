@@ -16,4 +16,7 @@ export class User {
   @IsNotEmpty()
   @Field(() => String)
   password: string
+
+  @Field(() => String)
+  accessToken?: string
 }
