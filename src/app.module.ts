@@ -3,27 +3,29 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { JwtModule } from "@nestjs/jwt";
-import Configuration from '@src/configs/configuration'
+import EnvConfig from '@src/configs/env.config'
 import { graphqlConfig } from "@src/configs/graphql.config";
 import { jwtConfig } from '@src/configs/jwt.config';
 import { CoreModule } from '@src/core/core.module';
 import { PrismaModule } from '@src/prisma/prisma.module';
+import { CatalogModule } from './catalog/catalog.module';
 
 @Module({
   imports: [
     PrismaModule,
     ConfigModule.forRoot({
       envFilePath: [ '.env' ],
-      load: [ Configuration ],
+      load: [ EnvConfig ],
       isGlobal: true,
       expandVariables: true
     }),
     JwtModule.register(jwtConfig),
     GraphQLModule.forRoot<ApolloDriverConfig>(graphqlConfig),
-    CoreModule
+    CoreModule,
+    CatalogModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {
 }

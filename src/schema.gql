@@ -7,11 +7,19 @@ type User {
   profileImage: String
   email: String!
   password: String!
-  accessToken: String!
+  accessToken: String
+}
+
+type UserCatalogItem {
+  id: String!
+  name: String!
+  image: String!
+  description: String
 }
 
 type Query {
   authorizeUser(authorizeUserInput: AuthorizeUserInput!): User!
+  getUserCatalog(id: String!): UserCatalogItem!
 }
 
 input AuthorizeUserInput {

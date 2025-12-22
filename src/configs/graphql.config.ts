@@ -5,4 +5,5 @@ export const graphqlConfig: ApolloDriverConfig = {
   autoSchemaFile: 'src/schema.gql',
   playground: false,
   introspection: true,
+  context: ({ req }) => ({ req })
 }

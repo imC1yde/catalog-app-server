@@ -1,22 +1,17 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { IsNotEmpty } from "class-validator";
+import type { Nullable } from "@src/common/utils/nullable";
 
 @ObjectType()
 export class User {
   @Field(() => String, { nullable: true })
-  username?: string
+  id: string
 
   @Field(() => String, { nullable: true })
-  profileImage?: string
+  username: Nullable<string>;
 
-  @IsNotEmpty()
+  @Field(() => String, { nullable: true })
+  profileImage: Nullable<string>;
+
   @Field(() => String)
   email: string
-
-  @IsNotEmpty()
-  @Field(() => String)
-  password: string
-
-  @Field(() => String)
-  accessToken?: string
 }

@@ -1,5 +1,5 @@
 import type { JwtModuleOptions } from "@nestjs/jwt";
-import Configuration from "@src/configs/configuration";
+import Configuration from "@src/configs/env.config";
 
 export const jwtConfig: JwtModuleOptions = {
   global: true,

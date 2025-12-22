@@ -3,3 +3,6 @@
 // 3. domain contains only letters, numbers and dashes
 // 4. top-level domain pattern
 export const EMAIL_REGEX: RegExp = /^(?!\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+// images can be only .jpg, .jpeg and .webp formatted
+export const IMAGE_REGEX: RegExp = /\*.{.jpg,.jpeg,.webp}/
