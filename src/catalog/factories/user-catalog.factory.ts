@@ -6,8 +6,7 @@ import { PrismaService } from "@src/prisma/prisma.service";
 
 @Injectable()
 export class UserCatalogFactory implements ICatalogFactory<UserCatalogService, UserCatalogResolver> {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   createService() {
     return new UserCatalogService(this.prisma)

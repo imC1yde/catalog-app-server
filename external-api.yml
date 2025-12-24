@@ -1,0 +1,4 @@
+external:
+  rawg:
+    url: "https://api.rawg.io/api/games"
+    key: ${RAWG_API_KEY}

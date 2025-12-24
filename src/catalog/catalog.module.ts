@@ -5,5 +5,4 @@ import { UserCatalogModule } from '@src/catalog/user-catalog/user-catalog.module
 @Module({
   imports: [ UserCatalogModule.register(UserCatalogFactory) ]
 })
-export class CatalogModule {
-}
+export class CatalogModule {}

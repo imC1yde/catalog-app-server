@@ -7,8 +7,7 @@ import { RegisterUserInput } from "@src/core/auth/inputs/register-user.input";
 
 @Resolver()
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => Boolean, { name: "registerUser" })
   async registerUser(@Args("registerUserInput", { type: () => RegisterUserInput }) input: RegisterUserInput) {

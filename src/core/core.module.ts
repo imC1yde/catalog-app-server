@@ -8,5 +8,4 @@ import { UserModule } from '@src/core/user/user.module';
     UserModule
   ]
 })
-export class CoreModule {
-}
+export class CoreModule {}

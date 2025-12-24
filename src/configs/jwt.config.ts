@@ -1,8 +1,7 @@
-import type { JwtModuleOptions } from "@nestjs/jwt";
-import Configuration from "@src/configs/env.config";
+import { Configuration, Value } from '@itgorillaz/configify'
 
-export const jwtConfig: JwtModuleOptions = {
-  global: true,
-  secret: Configuration().jwt.JWT_SECRET,
-  signOptions: { expiresIn: '7d' }
+@Configuration()
+export class JwtConfig {
+  @Value('JWT_SECRET')
+  jwtSecret!: string
 }

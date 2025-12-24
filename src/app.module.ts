@@ -1,31 +1,35 @@
-import { type ApolloDriverConfig } from "@nestjs/apollo";
-import { Module } from '@nestjs/common';
-import { ConfigModule } from "@nestjs/config";
-import { GraphQLModule } from "@nestjs/graphql";
-import { JwtModule } from "@nestjs/jwt";
-import EnvConfig from '@src/configs/env.config'
-import { graphqlConfig } from "@src/configs/graphql.config";
-import { jwtConfig } from '@src/configs/jwt.config';
-import { CoreModule } from '@src/core/core.module';
-import { PrismaModule } from '@src/prisma/prisma.module';
-import { CatalogModule } from './catalog/catalog.module';
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo"
+import { Module } from '@nestjs/common'
+import { GraphQLModule } from "@nestjs/graphql"
+import { JwtModule } from "@nestjs/jwt"
+import { CatalogModule } from '@src/catalog/catalog.module'
+import { GlobalConfigifyModule } from '@src/configs/global-configify.module'
+import { JwtConfig } from '@src/configs/jwt.config'
+import { CoreModule } from '@src/core/core.module'
+import { PrismaModule } from '@src/prisma/prisma.module'
 
 @Module({
   imports: [
     PrismaModule,
-    ConfigModule.forRoot({
-      envFilePath: [ '.env' ],
-      load: [ EnvConfig ],
-      isGlobal: true,
-      expandVariables: true
+    GlobalConfigifyModule,
+    JwtModule.registerAsync({
+      global: true,
+      inject: [ JwtConfig ],
+      useFactory: (config: JwtConfig) => ({
+        secret: config.jwtSecret
+      })
     }),
-    JwtModule.register(jwtConfig),
-    GraphQLModule.forRoot<ApolloDriverConfig>(graphqlConfig),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'src/schema.gql',
+      playground: false,
+      introspection: true,
+      context: ({ req }) => ({ req })
+    }),
     CoreModule,
     CatalogModule
   ],
   controllers: [],
   providers: []
 })
-export class AppModule {
-}
+export class AppModule {}

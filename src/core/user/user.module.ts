@@ -4,7 +4,6 @@ import { UserService } from '@src/core/user/user.service';
 
 @Module({
   providers: [ UserResolver, UserService ],
-  exports: [ UserService ],
+  exports: [ UserService ]
 })
-export class UserModule {
-}
+export class UserModule {}

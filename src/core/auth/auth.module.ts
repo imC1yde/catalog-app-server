@@ -5,7 +5,6 @@ import { UserModule } from "@src/core/user/user.module";
 
 @Module({
   providers: [ AuthResolver, AuthService ],
-  imports: [ UserModule ],
+  imports: [ UserModule ]
 })
-export class AuthModule {
-}
+export class AuthModule {}

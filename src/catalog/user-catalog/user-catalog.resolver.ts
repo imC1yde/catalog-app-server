@@ -7,8 +7,7 @@ import { UserCatalogItem } from "@src/common/types/user-catalog-item.type";
 
 @Resolver()
 export class UserCatalogResolver implements ICatalogResolver {
-  constructor(private readonly userCatalogService: UserCatalogService) {
-  }
+  constructor(private readonly userCatalogService: UserCatalogService) {}
 
   @UseGuards(IsAuthGuard)
   @Query(() => UserCatalogItem, { name: 'getUserCatalog' })

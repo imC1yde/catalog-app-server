@@ -7,8 +7,7 @@ import { PrismaService } from "@src/prisma/prisma.service";
 
 @Injectable()
 export class UserCatalogService implements ICatalogService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAllByUserId(id: string): Promise<UserCatalogItem[]> {
     return this.prisma.item.findMany({

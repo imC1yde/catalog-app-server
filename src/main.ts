@@ -1,21 +1,30 @@
+import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from '@src/app.module'
-import Configuration from '@src/configs/env.config'
-
-// todo:
-// [+] - create auth guard
-// [] - refresh token
-// [] - catalog factory
+import { AppConfig } from '@src/configs/app.config'
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule)
 
+  const appConfig = app.get(AppConfig)
+
+  // CORS settings
   app.enableCors({
     origin: 'http://localhost:3000',
     credentials: true
-  });
+  })
 
-  await app.listen(Configuration().app.PORT)
+  // request pre-validation settings
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+    transformOptions: {
+      enableImplicitConversion: true
+    }
+  }))
+
+  await app.listen(appConfig.port)
 }
 
-bootstrap();
+bootstrap()
