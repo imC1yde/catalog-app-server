@@ -1,21 +1,25 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { User } from "@src/common/types/user.type";
+import type { Nullable } from '@src/common/utils/nullable'
 import { AuthService } from '@src/core/auth/auth.service';
 import { AuthorizeUserInput } from "@src/core/auth/inputs/authorize-user.input";
 import { RegisterUserInput } from "@src/core/auth/inputs/register-user.input";
+import { UserWithToken } from '@src/core/auth/types/user-with-token.type'
 
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Boolean, { name: "registerUser" })
-  async registerUser(@Args("registerUserInput", { type: () => RegisterUserInput }) input: RegisterUserInput) {
+  @Mutation(() => User, { name: "registerUser" })
+  public async registerUser(@Args("input", { type: () => RegisterUserInput }) input: RegisterUserInput):
+    Promise<Nullable<User>> {
     return await this.authService.register(input)
   }
 
-  @Query(() => User, { name: "authorizeUser" })
-  async authorizeUser(@Args("authorizeUserInput", { type: () => AuthorizeUserInput }) input: AuthorizeUserInput) {
+  @Mutation(() => UserWithToken, { name: "authorizeUser" })
+  public async authorizeUser(@Args("input", { type: () => AuthorizeUserInput }) input: AuthorizeUserInput):
+    Promise<Nullable<User>> {
     return await this.authService.authorize(input)
   }
 }

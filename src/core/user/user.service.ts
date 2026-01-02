@@ -1,35 +1,41 @@
 import { Injectable } from '@nestjs/common'
 import { User } from "@src/common/types/user.type"
+import type { Nullable } from '@src/common/utils/nullable'
 import { UserForAuth } from '@src/core/shared/types/user-for-auth.type'
 import { CreateUserInput } from '@src/core/user/inputs/create-user.input'
+import { UpdateUserInput } from '@src/core/user/inputs/update-user.input'
 import { userFields } from '@src/core/user/utils/user-fields.util'
-import { PrismaService } from "@src/prisma/prisma.service"
+import { PrismaService } from "@src/infrastructure/prisma/prisma.service"
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByEmail(email: string): Promise<User> {
-    return await this.prisma.user.findUnique({
+  public async findByEmail(email: string): Promise<Nullable<User>> {
+    const user = await this.prisma.user.findUnique({
       where: { email },
       select: userFields
     })
+
+    return user
   }
 
-  async findForAuth(email: string): Promise<UserForAuth> {
-    return await this.prisma.user.findUnique({
+  public async findForAuth(email: string): Promise<Nullable<UserForAuth>> {
+    const user = await this.prisma.user.findUnique({
       where: { email },
       select: {
         ...userFields,
         password: true
       }
     })
+
+    return user
   }
 
-  async create(input: CreateUserInput): Promise<User> {
+  public async create(input: CreateUserInput): Promise<Nullable<User>> {
     const { username, email, password } = input
 
-    return await this.prisma.user.create({
+    return this.prisma.user.create({
       data: {
         username: username,
         email: email,
@@ -39,24 +45,37 @@ export class UserService {
     })
   }
 
-  async update(input: any): Promise<User> {
-    const { username, email, password, profileImage } = input
+  // updates only username and profile image \
+  // email cannot be changed after registration
+  public async update(email: string, input: UpdateUserInput): Promise<Nullable<User>> {
+    const { username, profileImage } = input
 
-    return await this.prisma.user.update({
-      where: { email },
-      data: {
-        username,
-        password,
-        profileImage
-      },
-      select: userFields
-    })
+    try {
+      const user = await this.prisma.user.update({
+        where: { email },
+        data: {
+          username,
+          profileImage
+        },
+        select: userFields
+      })
+
+      return user
+    } catch (error) {
+      return null
+    }
   }
 
-  async delete(email: string): Promise<User> {
-    return await this.prisma.user.delete({
-      where: { email },
-      select: userFields
-    })
+  public async delete(email: string): Promise<Nullable<User>> {
+    try {
+      const user = await this.prisma.user.delete({
+        where: { email },
+        select: userFields
+      })
+
+      return user
+    } catch (error) {
+      return null
+    }
   }
 }

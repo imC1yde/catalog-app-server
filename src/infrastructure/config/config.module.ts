@@ -1,7 +1,8 @@
 import { ConfigifyModule } from '@itgorillaz/configify'
-import { Global, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 
-@Global()
+require('dotenv').config()
+
 @Module({
   imports: [
     ConfigifyModule.forRootAsync({
@@ -10,4 +11,4 @@ import { Global, Module } from '@nestjs/common'
   ],
   exports: [ ConfigifyModule ]
 })
-export class GlobalConfigifyModule {}
+export class ConfigModule {}

@@ -2,14 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  username: String
-  profileImage: String
-  email: String!
-  password: String!
-  accessToken: String
-}
-
 type UserCatalogItem {
   id: String!
   name: String!
@@ -17,22 +9,37 @@ type UserCatalogItem {
   description: String
 }
 
-type Query {
-  authorizeUser(authorizeUserInput: AuthorizeUserInput!): User!
-  getUserCatalog(id: String!): UserCatalogItem!
+type User {
+  id: String
+  username: String
+  profileImage: String
+  email: String!
 }
 
-input AuthorizeUserInput {
+type UserWithToken {
+  id: String
+  username: String
+  profileImage: String
   email: String!
-  password: String!
+  token: String!
+}
+
+type Query {
+  getUserCatalog: [UserCatalogItem!]!
 }
 
 type Mutation {
-  registerUser(registerUserInput: RegisterUserInput!): Boolean!
+  registerUser(input: RegisterUserInput!): User!
+  authorizeUser(input: AuthorizeUserInput!): UserWithToken!
 }
 
 input RegisterUserInput {
   username: String
+  email: String!
+  password: String!
+}
+
+input AuthorizeUserInput {
   email: String!
   password: String!
 }

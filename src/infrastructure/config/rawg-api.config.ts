@@ -6,10 +6,10 @@ export class RawgConfig {
   @Value('external.rawg.url')
   @IsString()
   @IsNotEmpty()
-  rawgApiUrl!: string
+  public readonly url!: string
 
   @Value('RAWG_API_KEY')
   @IsString()
   @IsNotEmpty()
-  rawgApiKey!: string
+  public readonly accessKey!: string
 }

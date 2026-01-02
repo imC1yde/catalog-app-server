@@ -8,10 +8,10 @@ export class AuthorizeUserInput {
   @IsNotEmpty()
   @Matches(EMAIL_REGEX)
   @Field(() => String)
-  email: string
+  readonly email: string
 
   @IsStrongPassword(PASSWORD_SETTINGS)
   @IsNotEmpty()
   @Field(() => String)
-  password: string
+  readonly password: string
 }

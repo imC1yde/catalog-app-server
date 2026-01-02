@@ -3,15 +3,13 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from "@nestjs/graphql"
 import { JwtModule } from "@nestjs/jwt"
 import { CatalogModule } from '@src/catalog/catalog.module'
-import { GlobalConfigifyModule } from '@src/configs/global-configify.module'
-import { JwtConfig } from '@src/configs/jwt.config'
 import { CoreModule } from '@src/core/core.module'
-import { PrismaModule } from '@src/prisma/prisma.module'
+import { JwtConfig } from '@src/infrastructure/config/jwt.config'
+import { InfrastructureModule } from '@src/infrastructure/infrastructure.module';
 
 @Module({
   imports: [
-    PrismaModule,
-    GlobalConfigifyModule,
+    InfrastructureModule,
     JwtModule.registerAsync({
       global: true,
       inject: [ JwtConfig ],
@@ -27,7 +25,8 @@ import { PrismaModule } from '@src/prisma/prisma.module'
       context: ({ req }) => ({ req })
     }),
     CoreModule,
-    CatalogModule
+    CatalogModule,
+    InfrastructureModule
   ],
   controllers: [],
   providers: []
